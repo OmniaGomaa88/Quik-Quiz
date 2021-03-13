@@ -46,15 +46,38 @@ startGame=()=>{
     console.log(AvaiablerQeustion)
     getNewQuestion()
 };
+// function to change the questions
 getNewQuestion=()=>{
+    if(AvaiablerQeustion==0|| questionCounter>max_questions){
+        return window.location.assign("end-page.html")
+    }
     questionCounter++;
-    cerrentQuistion=AvaiablerQeustion[Math.floor(Math.random()*AvaiablerQeustion.length) ]
+    console.log(questionCounter)
+    const questionIndex=Math.floor(Math.random()*AvaiablerQeustion.length)
+    cerrentQuistion=AvaiablerQeustion[questionIndex]
     console.log(cerrentQuistion)
     question.textContent=cerrentQuistion.question
     choices.forEach(choice=>{
         const number=choice.dataset["number"]
     choice.innerText=cerrentQuistion["choice"+number]
     })
+    let variable=AvaiablerQeustion.splice(questionIndex,1)
+    console.log(variable)
+    accepptinganaswer=true
+  
 }
+// check if the user chose the true answer and stock the scour in localstorage
+choices.forEach(choice=>{
+    choice.addEventListener("click",function(e){
+let target=e.target.dataset["number"]
+if(target==cerrentQuistion.answer){
+   let userScor =score+=bonus
+    console.log(score)
+   localStorage.setItem("score",userScor)
+  console.log(userScor)
+}
+getNewQuestion()
+    })
+})
 startGame()
 
